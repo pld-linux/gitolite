@@ -11,7 +11,6 @@ Group:		Development/Tools
 # git://eagain.net/gitosis.git
 Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	bb5f1ed88cbf96ca5d4fbda2adf5ed3f
-Patch0:		%{name}-setup.patch
 URL:		http://github.com/sitaramc/gitolite
 BuildRequires:	rpm-perlprov
 BuildRequires:	rpmbuild(macros) >= 1.219
