@@ -1,14 +1,13 @@
 # TODO:
 # - how is it excpected to cooperate with git-daemon?
-%include        /usr/lib/rpm/macros.perl
+%include	/usr/lib/rpm/macros.perl
 Summary:	Software for hosting git repositories
 Summary(pl.UTF-8):	Narzędzie do hostowania repozytoriów git
 Name:		gitolite
 Version:	1.5.1
-Release:	0.1
+Release:	1
 License:	GPL v2
 Group:		Development/Tools
-# git://eagain.net/gitosis.git
 Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	bb5f1ed88cbf96ca5d4fbda2adf5ed3f
 Patch0:		lib.patch
@@ -17,6 +16,7 @@ BuildRequires:	rpm-perlprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sed >= 4.0
 Requires:	git-core
+Requires:	htpasswd
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
