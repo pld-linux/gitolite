@@ -55,7 +55,7 @@ sed -i 's,^# $GL_PACKAGE_HOOKS =.*, $GL_PACKAGE_HOOKS = %{_datadir}/gitolite/hoo
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir}/gitolite,%{_datadir}/gitolite/{hooks,lib}}
-cp src/gl-* src/sshkeys-lint $RPM_BUILD_ROOT%{_bindir}
+cp -a src/gl-* src/sshkeys-lint $RPM_BUILD_ROOT%{_bindir}
 cp src/gitolite.pm $RPM_BUILD_ROOT%{_datadir}/gitolite/lib
 cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}/gitolite
 cp -a hooks/* $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks
