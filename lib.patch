@@ -5,7 +5,7 @@
  my $bindir = $0;
  $bindir =~ s/\/[^\/]+$//;
 -require "$bindir/gitolite.pm";
-+use lib "/usr/share/data/gitolite/lib";
++use lib "/usr/share/gitolite/lib";
 +require gitolite;
  
  # ask where the rc file is, get it, and "do" it
@@ -17,7 +17,7 @@
  $bindir =~ s/\/[^\/]+$//;
  $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
 -require "$bindir/gitolite.pm";
-+use lib "/usr/share/data/gitolite/lib";
++use lib "/usr/share/gitolite/lib";
 +require gitolite;
  
  # ask where the rc file is, get it, and "do" it
@@ -29,7 +29,7 @@
  $bindir =~ s/\/[^\/]+$//;
  $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
 -require "$bindir/gitolite.pm";
-+use lib "/usr/share/data/gitolite/lib";
++use lib "/usr/share/gitolite/lib";
 +require gitolite;
  
  # ask where the rc file is, get it, and "do" it
