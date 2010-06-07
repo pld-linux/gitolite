@@ -50,8 +50,8 @@ rm src/gl-system-install
 
 echo %{version} > conf/VERSION
 sed -i 's,^GL_PACKAGE_CONF=.*,GL_PACKAGE_CONF=%{_sysconfdir}/gitolite,g' src/gl-setup
-sed -i 's,^# $GL_PACKAGE_CONF =.*, $GL_PACKAGE_CONF = %{_sysconfdir}/gitolite,g' conf/example.gitolite.rc
-sed -i 's,^# $GL_PACKAGE_HOOKS =.*, $GL_PACKAGE_HOOKS = %{_datadir}/gitolite/hooks,g' conf/example.gitolite.rc
+sed -i 's,^# $GL_PACKAGE_CONF =.*,$GL_PACKAGE_CONF = "%{_sysconfdir}/gitolite";,g' conf/example.gitolite.rc
+sed -i 's,^# $GL_PACKAGE_HOOKS =.*,$GL_PACKAGE_HOOKS = "%{_datadir}/gitolite/hooks";,g' conf/example.gitolite.rc
 
 %build
 
