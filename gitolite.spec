@@ -54,7 +54,7 @@ sed -i 's,^# $GL_PACKAGE_HOOKS =.*,$GL_PACKAGE_HOOKS = "%{_datadir}/gitolite/hoo
 
 # Some ugly hacks. Life without ugly hacks would be so borring.
 sed -i 's,^GL_PACKAGE_CONF=.*,GL_PACKAGE_CONF=%{_sysconfdir}/gitolite,g' src/gl-setup
-sed -i '2a\GL_ADMIN=$HOME/.gitolite\n' hooks/gitolite-admin/post-update
+sed -i '2a\GL_ADMIN=$HOME/.gitolite\nGL_BINDIR=%{_bindir}\n' hooks/gitolite-admin/post-update
 
 %build
 
