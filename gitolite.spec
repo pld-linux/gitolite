@@ -1,6 +1,6 @@
 # TODO:
-# - what to do with .pm file installed in %{_bindir}?
 # - how is it excpected to cooperate with git-daemon?
+%include        /usr/lib/rpm/macros.perl
 Summary:	Software for hosting git repositories
 Summary(pl.UTF-8):	Narzędzie do hostowania repozytoriów git
 Name:		gitolite
@@ -19,6 +19,9 @@ BuildRequires:	sed >= 4.0
 Requires:	git-core
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define	_noautoprov	^perl(gitolite)$
+%define	_noautoreq	^perl(gitolite)$
 
 %description
 Gitolite allows a server to host many git repositories and provide
@@ -70,6 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.mkd doc
 
 %dir %{_sysconfdir}/gitolite
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/gitolite/*
 %{_datadir}/gitolite
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/gl-*
+%attr(755,root,root) %{_bindir}/sshkeys-lint
