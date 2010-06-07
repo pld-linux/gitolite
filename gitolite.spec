@@ -15,6 +15,7 @@ Patch0:		lib.patch
 URL:		http://github.com/sitaramc/gitolite
 BuildRequires:	rpm-perlprov
 BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	sed >= 4.0
 Requires:	git-core
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -45,8 +46,9 @@ rm -rf sitaramc-gitolite-*
 rm src/gl-system-install
 
 echo %{version} > conf/VERSION
-sed 's,^# $GL_PACKAGE_CONF =.*, $GL_PACKAGE_CONF = %{_sysconfdir}/gitolite,g' conf/example.gitolite.rc
-sed 's,^# $GL_PACKAGE_HOOKS =.*, $GL_PACKAGE_HOOKS = %{_datadir}/gitolite/hooks,g' conf/example.gitolite.rc
+sed -i 's,^GL_PACKAGE_CONF=.*,GL_PACKAGE_CONF=%{_sysconfdir}/gitolite,g' src/gl-setup
+sed -i 's,^# $GL_PACKAGE_CONF =.*, $GL_PACKAGE_CONF = %{_sysconfdir}/gitolite,g' conf/example.gitolite.rc
+sed -i 's,^# $GL_PACKAGE_HOOKS =.*, $GL_PACKAGE_HOOKS = %{_datadir}/gitolite/hooks,g' conf/example.gitolite.rc
 
 %build
 
