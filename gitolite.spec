@@ -49,9 +49,12 @@ rm -rf sitaramc-gitolite-*
 rm src/gl-system-install
 
 echo %{version} > conf/VERSION
-sed -i 's,^GL_PACKAGE_CONF=.*,GL_PACKAGE_CONF=%{_sysconfdir}/gitolite,g' src/gl-setup
 sed -i 's,^# $GL_PACKAGE_CONF =.*,$GL_PACKAGE_CONF = "%{_sysconfdir}/gitolite";,g' conf/example.gitolite.rc
 sed -i 's,^# $GL_PACKAGE_HOOKS =.*,$GL_PACKAGE_HOOKS = "%{_datadir}/gitolite/hooks";,g' conf/example.gitolite.rc
+
+# Some ugly hacks. Life without ugly hacks would be so borring.
+sed -i 's,^GL_PACKAGE_CONF=.*,GL_PACKAGE_CONF=%{_sysconfdir}/gitolite,g' src/gl-setup
+sed -i '2a\GL_ADMIN=$HOME/.gitolite\n' hooks/gitolite-admin/post-update
 
 %build
 
@@ -74,6 +77,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir %{_sysconfdir}/gitolite
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/gitolite/*
-%{_datadir}/gitolite
+%dir %{_datadir}/gitolite
+%{_datadir}/gitolite/lib
+%dir %{_datadir}/gitolite/hooks
+%dir %{_datadir}/gitolite/hooks/common
+%dir %{_datadir}/gitolite/hooks/gitolite-admin
+%attr(755,root,root) %{_datadir}/gitolite/hooks/common/gitolite-hooked
+%attr(755,root,root) %{_datadir}/gitolite/hooks/common/update
+%attr(755,root,root) %{_datadir}/gitolite/hooks/gitolite-admin/post-update
+
 %attr(755,root,root) %{_bindir}/gl-*
 %attr(755,root,root) %{_bindir}/sshkeys-lint
