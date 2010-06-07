@@ -34,3 +34,15 @@
  
  # ask where the rc file is, get it, and "do" it
  &where_is_rc();
+--- gitolite-1.5.1/hooks/common/update~	2010-06-02 08:59:47.000000000 +0200
++++ gitolite-1.5.1/hooks/common/update	2010-06-07 16:00:47.000000000 +0200
+@@ -35,7 +35,8 @@
+ # we should already have the GL_RC env var set when we enter this hook
+ die "parse $ENV{GL_RC} failed: "       . ($! or $@) unless do $ENV{GL_RC};
+ 
+-require "$ENV{GL_BINDIR}/gitolite.pm";
++use lib "/usr/share/gitolite/lib";
++require gitolite;
+ 
+ my ($perm, $creator, $wild) = &repo_rights($ENV{GL_REPO});
+ my $reported_repo = $ENV{GL_REPO} . ( $ENV{GL_REPOPATT} ? " ($ENV{GL_REPOPATT})" : "" );
