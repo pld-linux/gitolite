@@ -11,6 +11,7 @@ Group:		Development/Tools
 # git://eagain.net/gitosis.git
 Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	bb5f1ed88cbf96ca5d4fbda2adf5ed3f
+Patch0:		lib.patch
 URL:		http://github.com/sitaramc/gitolite
 BuildRequires:	rpm-perlprov
 BuildRequires:	rpmbuild(macros) >= 1.219
@@ -39,6 +40,8 @@ directory.
 mv sitaramc-gitolite-*/* .
 rm -rf sitaramc-gitolite-*
 
+%patch0 -p1
+
 rm src/gl-system-install
 
 echo %{version} > conf/VERSION
@@ -49,8 +52,9 @@ sed 's,^# $GL_PACKAGE_HOOKS =.*, $GL_PACKAGE_HOOKS = %{_datadir}/gitolite/hooks,
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir}/gitolite,%{_datadir}/gitolite/hooks}
-cp src/* $RPM_BUILD_ROOT%{_bindir}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir}/gitolite,%{_datadir}/gitolite/{hooks,lib}}
+cp src/gl-* src/sshkeys-lint $RPM_BUILD_ROOT%{_bindir}
+cp src/gitolite.pm $RPM_BUILD_ROOT%{_datadir}/gitolite/lib
 cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}/gitolite
 cp -a hooks/* $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks
 

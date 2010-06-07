@@ -1,0 +1,36 @@
+--- gitolite-1.5.1/src/gl-install~	2010-06-02 08:59:47.000000000 +0200
++++ gitolite-1.5.1/src/gl-install	2010-06-07 14:51:51.000000000 +0200
+@@ -26,7 +26,8 @@
+ # the common setup module is in the same directory as this running program is
+ my $bindir = $0;
+ $bindir =~ s/\/[^\/]+$//;
+-require "$bindir/gitolite.pm";
++use lib "/usr/share/data/gitolite/lib";
++require gitolite;
+ 
+ # ask where the rc file is, get it, and "do" it
+ &where_is_rc();
+--- gitolite-1.5.1/src/gl-auth-command~	2010-06-02 08:59:47.000000000 +0200
++++ gitolite-1.5.1/src/gl-auth-command	2010-06-07 14:53:08.000000000 +0200
+@@ -33,7 +33,8 @@
+ my $bindir = $0;
+ $bindir =~ s/\/[^\/]+$//;
+ $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
+-require "$bindir/gitolite.pm";
++use lib "/usr/share/data/gitolite/lib";
++require gitolite;
+ 
+ # ask where the rc file is, get it, and "do" it
+ &where_is_rc();
+--- gitolite-1.5.1/src/gl-compile-conf~	2010-06-02 08:59:47.000000000 +0200
++++ gitolite-1.5.1/src/gl-compile-conf	2010-06-07 14:53:30.000000000 +0200
+@@ -60,7 +60,8 @@
+ my $bindir = $0;
+ $bindir =~ s/\/[^\/]+$//;
+ $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
+-require "$bindir/gitolite.pm";
++use lib "/usr/share/data/gitolite/lib";
++require gitolite;
+ 
+ # ask where the rc file is, get it, and "do" it
+ &where_is_rc();
