@@ -63,7 +63,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir}/gitolite,%{_datadir}/gitolite/{hooks,lib}}
 cp -a src/gl-* src/sshkeys-lint $RPM_BUILD_ROOT%{_bindir}
 cp src/gitolite.pm $RPM_BUILD_ROOT%{_datadir}/gitolite/lib
-cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}/gitolite
+cp -a conf/example.gitolite.rc $RPM_BUILD_ROOT%{_sysconfdir}/gitolite
 cp -a hooks/* $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks
 
 rm -rf $RPM_BUILD_ROOT%{py_sitescriptdir}/gitosis/test
@@ -73,10 +73,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.mkd doc
+%doc README.mkd doc conf/example.conf
 
 %dir %{_sysconfdir}/gitolite
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/gitolite/*
+%dir %{_sysconfdir}/gitolite
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/gitolite/example.gitolite.rc
 %dir %{_datadir}/gitolite
 %{_datadir}/gitolite/lib
 %dir %{_datadir}/gitolite/hooks
