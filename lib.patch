@@ -1,48 +1,40 @@
---- gitolite-1.5.1/src/gl-install~	2010-06-02 08:59:47.000000000 +0200
-+++ gitolite-1.5.1/src/gl-install	2010-06-07 14:51:51.000000000 +0200
-@@ -26,7 +26,8 @@
- # the common setup module is in the same directory as this running program is
+--- gitolite-1.5.7/src/gl-install~	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/src/gl-install	2010-12-01 15:49:15.000000000 +0100
+@@ -29,6 +29,7 @@
  my $bindir = $0;
  $bindir =~ s/\/[^\/]+$//;
--require "$bindir/gitolite.pm";
+ unshift @INC, $bindir;
 +use lib "/usr/share/gitolite/lib";
-+require gitolite;
+ require gitolite or die "parse gitolite.pm failed\n";
  
  # ask where the rc file is, get it, and "do" it
- &where_is_rc();
---- gitolite-1.5.1/src/gl-auth-command~	2010-06-02 08:59:47.000000000 +0200
-+++ gitolite-1.5.1/src/gl-auth-command	2010-06-07 14:53:08.000000000 +0200
-@@ -33,7 +33,8 @@
- my $bindir = $0;
+--- gitolite-1.5.7/src/gl-compile-conf~	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/src/gl-compile-conf	2010-12-01 15:49:47.000000000 +0100
+@@ -61,6 +61,7 @@
  $bindir =~ s/\/[^\/]+$//;
  $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
--require "$bindir/gitolite.pm";
+ unshift @INC, $bindir;
 +use lib "/usr/share/gitolite/lib";
-+require gitolite;
+ require gitolite or die "parse gitolite.pm failed\n";
  
  # ask where the rc file is, get it, and "do" it
- &where_is_rc();
---- gitolite-1.5.1/src/gl-compile-conf~	2010-06-02 08:59:47.000000000 +0200
-+++ gitolite-1.5.1/src/gl-compile-conf	2010-06-07 14:53:30.000000000 +0200
-@@ -60,7 +60,8 @@
- my $bindir = $0;
+--- gitolite-1.5.7/src/gl-setup-authkeys~	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/src/gl-setup-authkeys	2010-12-01 15:49:57.000000000 +0100
+@@ -31,6 +31,7 @@
  $bindir =~ s/\/[^\/]+$//;
  $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
--require "$bindir/gitolite.pm";
+ unshift @INC, $bindir;
 +use lib "/usr/share/gitolite/lib";
-+require gitolite;
+ require gitolite or die "parse gitolite.pm failed\n";
  
- # ask where the rc file is, get it, and "do" it
- &where_is_rc();
---- gitolite-1.5.1/hooks/common/update~	2010-06-02 08:59:47.000000000 +0200
-+++ gitolite-1.5.1/hooks/common/update	2010-06-07 16:00:47.000000000 +0200
-@@ -35,7 +35,8 @@
- # we should already have the GL_RC env var set when we enter this hook
- die "parse $ENV{GL_RC} failed: "       . ($! or $@) unless do $ENV{GL_RC};
- 
--require "$ENV{GL_BINDIR}/gitolite.pm";
+ # prevent newbie from running it accidentally and clobbering his authkeys
+--- gitolite-1.5.7/src/gl-time~	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/src/gl-time	2010-12-01 15:50:05.000000000 +0100
+@@ -23,6 +23,7 @@
+ $bindir =~ s/\/[^\/]+$//;
+ $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
+ unshift @INC, $bindir;
 +use lib "/usr/share/gitolite/lib";
-+require gitolite;
+ require gitolite or die "parse gitolite.pm failed\n";
  
- my ($perm, $creator, $wild) = &repo_rights($ENV{GL_REPO});
- my $reported_repo = $ENV{GL_REPO} . ( $ENV{GL_REPOPATT} ? " ($ENV{GL_REPOPATT})" : "" );
+ # ---------------------------------------------------------------
