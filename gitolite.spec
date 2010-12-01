@@ -4,12 +4,12 @@
 Summary:	Software for hosting git repositories
 Summary(pl.UTF-8):	Narzędzie do hostowania repozytoriów git
 Name:		gitolite
-Version:	1.5.1
+Version:	1.5.7
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	bb5f1ed88cbf96ca5d4fbda2adf5ed3f
+# Source0-md5:	4a7604902b35ad246b95fc8c99d59b8c
 Patch0:		lib.patch
 URL:		http://github.com/sitaramc/gitolite
 BuildRequires:	rpm-perlprov
