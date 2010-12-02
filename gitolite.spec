@@ -5,11 +5,14 @@ Summary:	Software for hosting git repositories
 Summary(pl.UTF-8):	Narzędzie do hostowania repozytoriów git
 Name:		gitolite
 Version:	1.5.7
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	4a7604902b35ad246b95fc8c99d59b8c
+# Use the following script to update Patch0:
+# for I in $(ack 'require gitolite' gitolite-1.5.7/ | cut -d: -f1 | sort | uniq ); do mv $I $I.old; sed < $I.old > $I '/require gitolite/iuse lib "/usr/share/gitolite/lib";'; done
+# for I in $(ack 'require gitolite' gitolite-1.5.7/ | cut -d: -f1 | sort | uniq | grep -v old); do diff -u $I.old $I; done
 Patch0:		lib.patch
 URL:		http://github.com/sitaramc/gitolite
 BuildRequires:	rpm-perlprov
