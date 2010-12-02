@@ -1,15 +1,35 @@
---- gitolite-1.5.7/src/gl-install~	2010-11-06 14:23:01.000000000 +0100
-+++ gitolite-1.5.7/src/gl-install	2010-12-01 15:49:15.000000000 +0100
-@@ -29,6 +29,7 @@
- my $bindir = $0;
+--- gitolite-1.5.7/contrib/adc/gl-reflog.old	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/contrib/adc/gl-reflog	2010-12-02 15:39:56.000000000 +0100
+@@ -41,6 +41,7 @@
+ $limit ||= 10;
+ 
+ unshift @INC, $ENV{GL_BINDIR};
++use lib "/usr/share/gitolite/lib";
+ require gitolite or die "parse gitolite.pm failed\n";
+ 
+ my ($perm, $creator, $wild) = &repo_rights($repo);
+--- gitolite-1.5.7/hooks/common/update.old	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/hooks/common/update	2010-12-02 15:39:56.000000000 +0100
+@@ -36,6 +36,7 @@
+ die "parse $ENV{GL_RC} failed: "       . ($! or $@) unless do $ENV{GL_RC};
+ 
+ unshift @INC, $ENV{GL_BINDIR};
++use lib "/usr/share/gitolite/lib";
+ require gitolite or die "parse gitolite.pm failed\n";
+ 
+ my ($perm, $creator, $wild) = &repo_rights($ENV{GL_REPO});
+--- gitolite-1.5.7/src/gl-auth-command.old	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/src/gl-auth-command	2010-12-02 15:39:56.000000000 +0100
+@@ -44,6 +44,7 @@
  $bindir =~ s/\/[^\/]+$//;
+ $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
  unshift @INC, $bindir;
 +use lib "/usr/share/gitolite/lib";
  require gitolite or die "parse gitolite.pm failed\n";
  
  # ask where the rc file is, get it, and "do" it
---- gitolite-1.5.7/src/gl-compile-conf~	2010-11-06 14:23:01.000000000 +0100
-+++ gitolite-1.5.7/src/gl-compile-conf	2010-12-01 15:49:47.000000000 +0100
+--- gitolite-1.5.7/src/gl-compile-conf.old	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/src/gl-compile-conf	2010-12-02 15:39:56.000000000 +0100
 @@ -61,6 +61,7 @@
  $bindir =~ s/\/[^\/]+$//;
  $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
@@ -18,8 +38,18 @@
  require gitolite or die "parse gitolite.pm failed\n";
  
  # ask where the rc file is, get it, and "do" it
---- gitolite-1.5.7/src/gl-setup-authkeys~	2010-11-06 14:23:01.000000000 +0100
-+++ gitolite-1.5.7/src/gl-setup-authkeys	2010-12-01 15:49:57.000000000 +0100
+--- gitolite-1.5.7/src/gl-install.old	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/src/gl-install	2010-12-02 15:39:56.000000000 +0100
+@@ -29,6 +29,7 @@
+ my $bindir = $0;
+ $bindir =~ s/\/[^\/]+$//;
+ unshift @INC, $bindir;
++use lib "/usr/share/gitolite/lib";
+ require gitolite or die "parse gitolite.pm failed\n";
+ 
+ # ask where the rc file is, get it, and "do" it
+--- gitolite-1.5.7/src/gl-setup-authkeys.old	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/src/gl-setup-authkeys	2010-12-02 15:39:56.000000000 +0100
 @@ -31,6 +31,7 @@
  $bindir =~ s/\/[^\/]+$//;
  $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
@@ -28,8 +58,8 @@
  require gitolite or die "parse gitolite.pm failed\n";
  
  # prevent newbie from running it accidentally and clobbering his authkeys
---- gitolite-1.5.7/src/gl-time~	2010-11-06 14:23:01.000000000 +0100
-+++ gitolite-1.5.7/src/gl-time	2010-12-01 15:50:05.000000000 +0100
+--- gitolite-1.5.7/src/gl-time.old	2010-11-06 14:23:01.000000000 +0100
++++ gitolite-1.5.7/src/gl-time	2010-12-02 15:39:56.000000000 +0100
 @@ -23,6 +23,7 @@
  $bindir =~ s/\/[^\/]+$//;
  $bindir = "$ENV{PWD}/$bindir" unless $bindir =~ /^\//;
