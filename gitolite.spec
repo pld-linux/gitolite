@@ -5,12 +5,12 @@
 Summary:	Software for hosting git repositories
 Summary(pl.UTF-8):	Narzędzie do hostowania repozytoriów git
 Name:		gitolite
-Version:	1.5.9
+Version:	2.0
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	195c3bb527d1873151ee12c46814ae2c
+# Source0-md5:	6a5b0ba784f190ff2d94a7e0ad46fe3f
 # Use the following script to update Patch0:
 # for I in $(ack 'require gitolite' gitolite-1.5.8/ | cut -d: -f1 | sort | uniq ); do mv $I $I.old; sed < $I.old > $I '/require gitolite/iuse lib "/usr/share/gitolite/lib";'; done
 # for I in $(ack 'require gitolite' gitolite-1.5.8/ | cut -d: -f1 | sort | uniq | grep -v old); do diff -u $I.old $I; done
@@ -91,14 +91,14 @@ cp -p src/gitolite.pm $RPM_BUILD_ROOT%{_datadir}/gitolite/lib
 cp -p conf/example.gitolite.rc $RPM_BUILD_ROOT%{_sysconfdir}/gitolite
 cp -a hooks/* $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks
 
-rm -rf $RPM_BUILD_ROOT%{py_sitescriptdir}/gitosis/test
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks/common/gl-pre-git.hub-sample
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.mkd conf/example.conf
+%doc README.mkd conf/example.conf hooks/common/gl-pre-git.hub-sample
 %dir %{_sysconfdir}/gitolite
 %dir %{_sysconfdir}/gitolite
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/gitolite/example.gitolite.rc
