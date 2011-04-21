@@ -72,7 +72,8 @@ sed -i '2a\GL_ADMIN=$HOME/.gitolite\nGL_BINDIR=%{_bindir}\n' hooks/gitolite-admi
 # Format documentation
 for F in doc/*.mkd; do
 	perl -MText::Markdown > $(echo $F | sed s/.mkd/.html/) < $F \
-		-e 'print Text::Markdown::markdown (join "", <>)'
+		-e '$text=join("",<>); $text=~s#(\[\w+\]: )http://sitaramc.github.com/gitolite/doc/#$1#g;
+                    print Text::Markdown::markdown ($text);'
 done
 
 %install
