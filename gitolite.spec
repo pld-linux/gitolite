@@ -81,7 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir}/gitolite,%{_datadir}/gitolite/hooks,%{perl_vendorlib}}
 cp -a src/gl-* src/sshkeys-lint $RPM_BUILD_ROOT%{_bindir}
 cp -p src/*.pm $RPM_BUILD_ROOT%{perl_vendorlib}
-cp -p conf/example.gitolite.rc $RPM_BUILD_ROOT%{_sysconfdir}/gitolite
+cp -p conf/{example.gitolite.rc,VERSION} $RPM_BUILD_ROOT%{_sysconfdir}/gitolite
 cp -a hooks/* $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks
 
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks/common/gl-pre-git.hub-sample
@@ -94,6 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.mkd conf/example.conf hooks/common/gl-pre-git.hub-sample
 %dir %{_sysconfdir}/gitolite
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/gitolite/example.gitolite.rc
+%{_sysconfdir}/gitolite/VERSION
 %attr(755,root,root) %{_bindir}/gl-*
 %attr(755,root,root) %{_bindir}/sshkeys-lint
 %dir %{_datadir}/gitolite
