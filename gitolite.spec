@@ -11,6 +11,7 @@ License:	GPL v2
 Group:		Development/Tools
 Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	6a5b0ba784f190ff2d94a7e0ad46fe3f
+Patch0:		%{name}-mkdir.patch
 URL:		http://github.com/sitaramc/gitolite
 BuildRequires:	perl-Text-Markdown
 BuildRequires:	rpm-perlprov
@@ -57,6 +58,8 @@ Dokumentacja do Gitolite.
 %setup -qc
 mv sitaramc-gitolite-*/* .
 rm -rf sitaramc-gitolite-*
+
+%patch0 -p1
 
 rm src/gl-system-install
 
