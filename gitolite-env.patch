@@ -4,7 +4,7 @@ Date: Tue, 3 May 2011 16:59:05 +0100
 Subject: [PATCH] Remove GIT_* variables from environment
 
 Some ssh servers are configured to copy GIT_* variables from client to
-session's environment. However some git clone sets GIT_DIR variable.
+session's environment. However git clone sets GIT_DIR variable.
 Therefore remote git init fails during creation of wildcard repository
 in this case.
 ---
