@@ -1,0 +1,30 @@
+From a3e4be5689a59a695d072afb5e174efa775cd9a5 Mon Sep 17 00:00:00 2001
+From: Kacper Kornet <draenog@pld-linux.org>
+Date: Tue, 3 May 2011 16:59:05 +0100
+Subject: [PATCH] Remove GIT_* variables from environment
+
+Some ssh servers are configured to copy GIT_* variables from client to
+session's environment. However some git clone sets GIT_DIR variable.
+Therefore remote git init fails during creation of wildcard repository
+in this case.
+---
+ src/gitolite_env.pm |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
+diff --git a/src/gitolite_env.pm b/src/gitolite_env.pm
+index 81b8168..5dffd41 100644
+--- a/src/gitolite_env.pm
++++ b/src/gitolite_env.pm
+@@ -46,6 +46,9 @@ use gitolite;
+ 
+ # think of it OS-supported memo-ization :-)
+ sub setup_environment {
++    foreach my $variable (keys %ENV) {
++        delete $ENV{$variable} if $variable=~m/^GIT_/;
++    }
+     $ENV{GL_ADMINDIR} = $GL_ADMINDIR;
+     $ENV{GL_LOG} = get_logfilename($GL_LOGT);
+     $ENV{PATH} = "$GIT_PATH:$ENV{PATH}" if $GIT_PATH;
+-- 
+1.7.5
+

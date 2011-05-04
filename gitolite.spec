@@ -12,6 +12,7 @@ Group:		Development/Tools
 Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	6a5b0ba784f190ff2d94a7e0ad46fe3f
 Patch0:		%{name}-mkdir.patch
+Patch1:		%{name}-env.patch
 URL:		http://github.com/sitaramc/gitolite
 BuildRequires:	perl-Text-Markdown
 BuildRequires:	rpm-perlprov
@@ -60,6 +61,7 @@ mv sitaramc-gitolite-*/* .
 rm -rf sitaramc-gitolite-*
 
 %patch0 -p1
+%patch1 -p1
 
 rm src/gl-system-install
 
