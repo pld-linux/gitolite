@@ -13,6 +13,7 @@ Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{versi
 # Source0-md5:	f960fa5794193e1c77bfb14aa2b872ea
 Patch0:		%{name}-mkdir.patch
 Patch1:		%{name}-env.patch
+Patch2:		%{name}-gituser.patch
 URL:		http://github.com/sitaramc/gitolite
 BuildRequires:	perl-Text-Markdown
 BuildRequires:	rpm-perlprov
@@ -62,6 +63,7 @@ rm -rf sitaramc-gitolite-*
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 rm src/gl-system-install
 
@@ -89,14 +91,15 @@ cp -p src/*.pm $RPM_BUILD_ROOT%{perl_vendorlib}
 cp -p conf/{example.gitolite.rc,VERSION} $RPM_BUILD_ROOT%{_sysconfdir}/gitolite
 cp -a hooks/* $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks
 
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks/common/gl-pre-git.hub-sample
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks/common/{gl-pre-git.hub-sample,update.secondary.sample,post-receive.mirrorpush}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.mkd conf/example.conf hooks/common/gl-pre-git.hub-sample
+%doc README.mkd conf/example.conf hooks/common/{gl-pre-git.hub-sample,update.secondary.sample,post-receive.mirrorpush}
+
 %dir %{_sysconfdir}/gitolite
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/gitolite/example.gitolite.rc
 %{_sysconfdir}/gitolite/VERSION
@@ -108,7 +111,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/gitolite/hooks/common
 %dir %{_datadir}/gitolite/hooks/gitolite-admin
 %attr(755,root,root) %{_datadir}/gitolite/hooks/common/gitolite-hooked
-%attr(755,root,root) %{_datadir}/gitolite/hooks/common/post-receive.mirrorpush
 %attr(755,root,root) %{_datadir}/gitolite/hooks/common/update
 %attr(755,root,root) %{_datadir}/gitolite/hooks/gitolite-admin/post-update
 
