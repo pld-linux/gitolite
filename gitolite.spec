@@ -5,15 +5,14 @@
 Summary:	Software for hosting git repositories
 Summary(pl.UTF-8):	Narzędzie do hostowania repozytoriów git
 Name:		gitolite
-Version:	2.0.1
+Version:	2.0.2
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	f960fa5794193e1c77bfb14aa2b872ea
+# Source0-md5:	099947faee44ea3b308b5e61f87ddb8e
 Patch0:		%{name}-mkdir.patch
 Patch1:		%{name}-env.patch
-Patch2:		%{name}-gituser.patch
 URL:		http://github.com/sitaramc/gitolite
 BuildRequires:	perl-Text-Markdown
 BuildRequires:	rpm-perlprov
@@ -63,7 +62,6 @@ rm -rf sitaramc-gitolite-*
 
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 rm src/gl-system-install
 
