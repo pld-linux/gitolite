@@ -1,0 +1,39 @@
+From b6bdf6ddb4faf2356e0e4642ea0180e27675c9fc Mon Sep 17 00:00:00 2001
+From: Kacper Kornet <draenog@pld-linux.org>
+Date: Mon, 16 May 2011 20:21:52 +0100
+Subject: [PATCH 6/6] Option to disable creation of wildcard repos
+
+---
+ src/gitolite_rc.pm  |    2 +-
+ src/gl-auth-command |    3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/gitolite_rc.pm b/src/gitolite_rc.pm
+index 9f65a7d..cf74b65 100644
+--- a/src/gitolite_rc.pm
++++ b/src/gitolite_rc.pm
+@@ -18,7 +18,7 @@ use Exporter 'import';
+     $GL_ADC_PATH $GL_ADMINDIR $GL_ALL_INCLUDES_SPECIAL $GL_ALL_READ_ALL
+     $GL_BIG_CONFIG $GL_CONF $GL_CONF_COMPILED $GL_GET_MEMBERSHIPS_PGM
+     $GL_GITCONFIG_KEYS $GL_KEYDIR $GL_LOGT $GL_NICE_VALUE
+-    $GL_NO_CREATE_REPOS $GL_NO_DAEMON_NO_GITWEB $GL_NO_SETUP_AUTHKEYS
++    $GL_NO_CREATE_REPOS $GL_NO_CREATE_WILDCARD_REPOS $GL_NO_DAEMON_NO_GITWEB $GL_NO_SETUP_AUTHKEYS
+     $GL_PACKAGE_CONF $GL_PACKAGE_HOOKS $GL_PERFLOGT $GL_SITE_INFO
+     $GL_SLAVE_MODE $GL_WILDREPOS $GL_WILDREPOS_DEFPERMS
+     $GL_WILDREPOS_PERM_CATS $HTPASSWD_FILE $PROJECTS_LIST $WEB_INTERFACE
+diff --git a/src/gl-auth-command b/src/gl-auth-command
+index 851f614..71596a4 100755
+--- a/src/gl-auth-command
++++ b/src/gl-auth-command
+@@ -160,7 +160,7 @@ if ( $GL_ALL_READ_ALL and $verb =~ $R_COMMANDS and -d "$REPO_BASE/$repo.git") {
+     ($perm, $creator, $wild) = repo_rights($repo);
+ }
+ # it was missing, and you have create perms, so create it
+-new_wild_repo($repo, $user) if ($perm =~ /C/);
++new_wild_repo($repo, $user) if ($perm =~ /C/ && !$GL_NO_CREATE_WILDCARD_REPOS);
+ 
+ die "$aa access for $repo DENIED to $user
+ (Or there may be no repository at the given path. Did you spell it correctly?)\n" unless $perm =~ /$aa/;
+-- 
+1.7.8
+
