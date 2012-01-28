@@ -1,0 +1,26 @@
+commit b296e58b1b2b9af87b28c9decfd2642fa42e8165
+Author: Kacper Kornet <draenog@pld-linux.org>
+Date:   Sat Jan 28 14:46:14 2012 +0000
+
+    Do not attempt to modify $PROJECTS_LIST when $GL_NO_DAEMON_NO_GITWEB
+    
+    File $PROJECTS_LIST is not created when $GL_NO_DAEMON_NO_GITWEB is set,
+    so add_del_web_access should not try to modify the file in this case.
+
+diff --git a/src/gitolite.pm b/src/gitolite.pm
+index 4d5f9e2..54f5e6b 100644
+--- a/src/gitolite.pm
++++ b/src/gitolite.pm
+@@ -507,10 +507,10 @@ sub add_del_web_access {
+     # to determine whether to add or delete the repo from web access.
+     # However, "desc" also factors into this so we have think about this.
+     if ($WEB_INTERFACE eq 'gitweb') {
+-
++      unless($GL_NO_DAEMON_NO_GITWEB) {
+         my $repo = shift;
+         add_del_line ("$repo.git", $PROJECTS_LIST, setup_gitweb_access($repo, '', '') || 0, $GITWEB_URI_ESCAPE || 0);
+-
++      }
+     } else {
+         warn "sorry, unknown web interface $WEB_INTERFACE\n";
+     }
