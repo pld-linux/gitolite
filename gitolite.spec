@@ -5,12 +5,12 @@
 Summary:	Software for hosting git repositories
 Summary(pl.UTF-8):	Narzędzie do hostowania repozytoriów git
 Name:		gitolite
-Version:	2.3
+Version:	2.3.1
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://github.com/sitaramc/gitolite/tarball/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	9d213f1c0d73e33be779b2735d7b9552
+# Source0-md5:	096e80901404832445040aef7d733550
 Patch0:		%{name}-mkdir.patch
 Patch1:		%{name}-env.patch
 Patch2:		%{name}-BIG_INFO_CAP.patch
@@ -74,12 +74,11 @@ rm -rf sitaramc-gitolite-*
 rm src/gl-system-install
 
 echo v%{version} > conf/VERSION
-sed -i 's,^# $GL_PACKAGE_CONF =.*,$GL_PACKAGE_CONF = "%{_sysconfdir}/gitolite";,g' conf/example.gitolite.rc
-sed -i 's,^# $GL_PACKAGE_HOOKS =.*,$GL_PACKAGE_HOOKS = "%{_datadir}/gitolite/hooks";,g' conf/example.gitolite.rc
+sed -i 's,^$GL_PACKAGE_CONF =.*,$GL_PACKAGE_CONF = "%{_sysconfdir}/gitolite";,g' conf/example.gitolite.rc
+sed -i 's,^$GL_PACKAGE_HOOKS =.*,$GL_PACKAGE_HOOKS = "%{_datadir}/gitolite/hooks";,g' conf/example.gitolite.rc
 
 # Some ugly hacks. Life without ugly hacks would be so booring.
 sed -i 's,^GL_PACKAGE_CONF=.*,GL_PACKAGE_CONF=%{_sysconfdir}/gitolite,g' src/gl-setup
-sed -i '2a\GL_ADMIN=$HOME/.gitolite\nGL_BINDIR=%{_bindir}\n' hooks/gitolite-admin/post-update
 
 %build
 # Format documentation
@@ -97,14 +96,14 @@ cp -p src/*.pm $RPM_BUILD_ROOT%{perl_vendorlib}
 cp -p conf/{example.gitolite.rc,VERSION} $RPM_BUILD_ROOT%{_sysconfdir}/gitolite
 cp -a hooks/* $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks
 
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks/common/{gl-pre-git.hub-sample,update.secondary.sample,post-receive.mirrorpush}
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks/common/{gl-pre-git.hub-sample,post-receive.mirrorpush}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.mkd conf/example.conf hooks/common/{gl-pre-git.hub-sample,update.secondary.sample,post-receive.mirrorpush}
+%doc README.mkd conf/example.conf hooks/common/{gl-pre-git.hub-sample,post-receive.mirrorpush}
 
 %dir %{_sysconfdir}/gitolite
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/gitolite/example.gitolite.rc

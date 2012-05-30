@@ -1,26 +1,26 @@
-From 192ff2030173bc3b433b0ece9d1fe9e25d43b2c1 Mon Sep 17 00:00:00 2001
+From 1fa1177a43a322ec43aaf2b5ee5259dfdd05035d Mon Sep 17 00:00:00 2001
 From: Kacper Kornet <draenog@pld-linux.org>
 Date: Tue, 21 Jun 2011 14:34:52 +0200
-Subject: [PATCH 2/6] Remove broken links
+Subject: [PATCH] Remove broken links
 
 When some hook files were removed it resulted in broken links to them.
 This commit fixes it.
 ---
- src/gl-install |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ src/gl-install | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/src/gl-install b/src/gl-install
-index de7aefd..2f73869 100755
+index ac9e84e..6619e16 100755
 --- a/src/gl-install
 +++ b/src/gl-install
-@@ -97,6 +97,7 @@ for my $repo (`find . -type d -name "*.git" -prune`) {
-     # in case of package install, GL_ADMINDIR is no longer the top cop;
-     # override with the package hooks
-     ln_sf("$GL_PACKAGE_HOOKS/common", "*", "$repo/hooks") if $GL_PACKAGE_HOOKS;
+@@ -46,6 +46,7 @@ for my $repo (`find . -type d -name "*.git" -prune`) {
+     ln_sf( "$GL_ADMINDIR/hooks/common", "*", "$repo/hooks" );
+     # propagate package hooks, overriding user hooks
+     ln_sf( "$GL_PACKAGE_HOOKS/common", "*", "$repo/hooks" );
 +    foreach(glob "$repo/hooks/*") { -l && ! -e && unlink};
      chmod 0755, "$repo/hooks/update";
  }
  
 -- 
-1.7.8
+1.7.11.rc0
 

@@ -1,11 +1,11 @@
-From b6bdf6ddb4faf2356e0e4642ea0180e27675c9fc Mon Sep 17 00:00:00 2001
+From c5f5a5ac2c24abb9787a14f1904ca487e5672757 Mon Sep 17 00:00:00 2001
 From: Kacper Kornet <draenog@pld-linux.org>
 Date: Mon, 16 May 2011 20:21:52 +0100
-Subject: [PATCH 6/6] Option to disable creation of wildcard repos
+Subject: [PATCH] Option to disable creation of wildcard repos
 
 ---
- src/gitolite_rc.pm  |    2 +-
- src/gl-auth-command |    3 ++-
+ src/gitolite_rc.pm  | 2 +-
+ src/gl-auth-command | 3 ++-
  2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/src/gitolite_rc.pm b/src/gitolite_rc.pm
@@ -22,18 +22,19 @@ index 9f65a7d..cf74b65 100644
      $GL_SLAVE_MODE $GL_WILDREPOS $GL_WILDREPOS_DEFPERMS
      $GL_WILDREPOS_PERM_CATS $HTPASSWD_FILE $PROJECTS_LIST $WEB_INTERFACE
 diff --git a/src/gl-auth-command b/src/gl-auth-command
-index 851f614..71596a4 100755
+index 851f614..c10b327 100755
 --- a/src/gl-auth-command
 +++ b/src/gl-auth-command
-@@ -160,7 +160,7 @@ if ( $GL_ALL_READ_ALL and $verb =~ $R_COMMANDS and -d "$REPO_BASE/$repo.git") {
+@@ -160,7 +160,8 @@ if ( $GL_ALL_READ_ALL and $verb =~ $R_COMMANDS and -d "$REPO_BASE/$repo.git") {
      ($perm, $creator, $wild) = repo_rights($repo);
  }
  # it was missing, and you have create perms, so create it
 -new_wild_repo($repo, $user) if ($perm =~ /C/);
 +new_wild_repo($repo, $user) if ($perm =~ /C/ && !$GL_NO_CREATE_WILDCARD_REPOS);
++die "$repo does not exists\n" unless( -d "$REPO_BASE/$repo.git");
  
  die "$aa access for $repo DENIED to $user
  (Or there may be no repository at the given path. Did you spell it correctly?)\n" unless $perm =~ /$aa/;
 -- 
-1.7.8
+1.7.11.rc0
 

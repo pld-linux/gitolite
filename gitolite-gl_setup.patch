@@ -1,36 +1,36 @@
-From c3224124b55ac74e6817a54dc52adc1c77757d6c Mon Sep 17 00:00:00 2001
+From 75ed5cd525be9a749c0a170d6e78fbffc8ebc93d Mon Sep 17 00:00:00 2001
 From: Kacper Kornet <draenog@pld-linux.org>
 Date: Fri, 10 Jun 2011 16:31:36 +0200
-Subject: [PATCH 3/6] Run gl-install in gl-setup only when admin repo was
+Subject: [PATCH] Run gl-install in gl-setup for only when admin repo was
  created
 
 With large number of repos gl-install is expensive to run. So it should
 be run for the second time in gl-setupe only when necessary.
 ---
- src/gl-setup |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ src/gl-setup | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/src/gl-setup b/src/gl-setup
-index 3a6c04b..f451bcc 100755
+index 1970d93..c7ae927 100755
 --- a/src/gl-setup
 +++ b/src/gl-setup
-@@ -117,6 +117,7 @@ gl-install -q
+@@ -168,6 +168,7 @@ gl-install -q
          repo    testing
                  RW+     =   @all
- EOF
-+   RERUN_GL_INSTALL=1
+     " | cut -c9- > $GL_ADMINDIR/conf/gitolite.conf
++   RERUN_GL_INSTALL = 1
  }
  [ -n "$pubkey_file" ] && cp $pubkey_file $GL_ADMINDIR/keydir
  
-@@ -135,7 +136,7 @@ gl-compile-conf -q
+@@ -186,7 +187,7 @@ gl-compile-conf -q
  
  # now that the admin repo is created, you have to set the hooks properly; best
  # do it by running install again
 -gl-install -q
 +[ "$RERUN_GL_INSTALL" = 1 ] && gl-install -q
  
- # ----
- 
+ # ----------------------------------------------------------------------
+ #   lint check on ssh keys
 -- 
-1.7.8
+1.7.11.rc0
 
