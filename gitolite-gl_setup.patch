@@ -1,4 +1,4 @@
-From 75ed5cd525be9a749c0a170d6e78fbffc8ebc93d Mon Sep 17 00:00:00 2001
+From 91808f793f1527a86c546ec974505dd3d5d80fee Mon Sep 17 00:00:00 2001
 From: Kacper Kornet <draenog@pld-linux.org>
 Date: Fri, 10 Jun 2011 16:31:36 +0200
 Subject: [PATCH] Run gl-install in gl-setup for only when admin repo was
@@ -7,22 +7,35 @@ Subject: [PATCH] Run gl-install in gl-setup for only when admin repo was
 With large number of repos gl-install is expensive to run. So it should
 be run for the second time in gl-setupe only when necessary.
 ---
- src/gl-setup | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ src/gl-setup | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/src/gl-setup b/src/gl-setup
-index 1970d93..c7ae927 100755
+index 1970d93..0395631 100755
 --- a/src/gl-setup
 +++ b/src/gl-setup
 @@ -168,6 +168,7 @@ gl-install -q
          repo    testing
                  RW+     =   @all
      " | cut -c9- > $GL_ADMINDIR/conf/gitolite.conf
-+   RERUN_GL_INSTALL = 1
++   RERUN_GL_INSTALL=1
  }
  [ -n "$pubkey_file" ] && cp $pubkey_file $GL_ADMINDIR/keydir
  
-@@ -186,7 +187,7 @@ gl-compile-conf -q
+@@ -175,7 +176,7 @@ touch $HOME/.ssh/authorized_keys
+ gl-compile-conf -q
+ 
+ # setup the admin repo
+-[ -n "$pubkey_file" ] || [ -n "$GITOLITE_HTTP_HOME" ] && (
++[ -n "$pubkey_file" ] || [ -n "$GITOLITE_HTTP_HOME" ] && { RERUN_GL_INSTALL=1; (
+     cd $HOME; cd $REPO_BASE/gitolite-admin.git
+     GIT_WORK_TREE=$GL_ADMINDIR; export GIT_WORK_TREE
+     git add conf/gitolite.conf keydir
+@@ -183,10 +184,11 @@ gl-compile-conf -q
+     git config --get user.name  >/dev/null || git config user.name  "$USER on `hostname`"
+     git diff --cached --quiet 2>/dev/null || git commit -am "gl-setup $args"
+ )
++}
  
  # now that the admin repo is created, you have to set the hooks properly; best
  # do it by running install again
@@ -32,5 +45,5 @@ index 1970d93..c7ae927 100755
  # ----------------------------------------------------------------------
  #   lint check on ssh keys
 -- 
-1.7.11.rc0
+1.7.11.rc2
 
