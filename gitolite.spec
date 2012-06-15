@@ -59,6 +59,14 @@ Documentazione di Gitolite.
 %description doc -l pl.UTF-8
 Dokumentacja do Gitolite.
 
+%package contrib
+Summary:	Miscellaneous scripts for gitolite
+Group:		Development/Tools
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description contrib
+Miscellaneous scripts for gitolite
+
 %prep
 %setup -qc
 mv sitaramc-gitolite-*/* .
@@ -81,6 +89,8 @@ sed -i 's,^$GL_PACKAGE_HOOKS =.*,$GL_PACKAGE_HOOKS = "%{_datadir}/gitolite/hooks
 sed -i 's,^GL_PACKAGE_CONF=.*,GL_PACKAGE_CONF=%{_sysconfdir}/gitolite,g' src/gl-setup
 
 %build
+# Copy documentation from contrib
+find contrib -name \*.mkd -exec cp '{}' doc \;
 # Format documentation
 for F in doc/*.mkd; do
 	perl -MText::Markdown > $(echo $F | sed s/.mkd/.html/) < $F \
@@ -90,11 +100,13 @@ done
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir}/gitolite,%{_datadir}/gitolite/hooks,%{perl_vendorlib}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir}/gitolite,%{_datadir}/gitolite/{hooks,contrib},%{perl_vendorlib}}
 cp -a src/gl-* src/sshkeys-lint $RPM_BUILD_ROOT%{_bindir}
 cp -p src/*.pm $RPM_BUILD_ROOT%{perl_vendorlib}
 cp -p conf/{example.gitolite.rc,VERSION} $RPM_BUILD_ROOT%{_sysconfdir}/gitolite
 cp -a hooks/* $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks
+cp -a contrib/* $RPM_BUILD_ROOT%{_datadir}/gitolite/contrib
+find  $RPM_BUILD_ROOT%{_datadir}/gitolite/contrib -name \*.mkd | xargs rm
 
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/gitolite/hooks/common/{gl-pre-git.hub-sample,post-receive.mirrorpush}
 
@@ -118,6 +130,61 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_datadir}/gitolite/hooks/common/gitolite-hooked
 %attr(755,root,root) %{_datadir}/gitolite/hooks/common/update
 %attr(755,root,root) %{_datadir}/gitolite/hooks/gitolite-admin/post-update
+
+%files contrib
+%defattr(644,root,root,755)
+%dir %{_datadir}/gitolite/contrib/
+%dir %{_datadir}/gitolite/contrib/adc
+%dir %{_datadir}/gitolite/contrib/partial-copy
+%dir %{_datadir}/gitolite/contrib/real-users
+%dir %{_datadir}/gitolite/contrib/VREF
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/able
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/delete-branch
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/fork
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/get-rights-and-owner.in-perl
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/git
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/git-annex-shell
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/gl-reflog
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/help
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/hub
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/list-trash
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/lock
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/perms
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/restore
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/restrict-admin
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/rm
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/rmrepo
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/rsync
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/sskm
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/sudo
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/su-expand
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/su-getperms
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/symbolic-ref
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/trash
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/unlock
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/watch
+%attr(755,root,root) %{_datadir}/gitolite/contrib/adc/who-pushed
+%attr(755,root,root) %{_datadir}/gitolite/contrib/mirrorconf-helper.sh
+%attr(755,root,root) %{_datadir}/gitolite/contrib/partial-copy/gl-pre-git
+%attr(755,root,root) %{_datadir}/gitolite/contrib/partial-copy/t.sh
+%attr(755,root,root) %{_datadir}/gitolite/contrib/partial-copy/update.secondary
+%attr(755,root,root) %{_datadir}/gitolite/contrib/real-users/gl-shell
+%attr(755,root,root) %{_datadir}/gitolite/contrib/real-users/gl-shell-setup
+%attr(755,root,root) %{_datadir}/gitolite/contrib/VREF/gl-VREF-COUNT
+%attr(755,root,root) %{_datadir}/gitolite/contrib/VREF/gl-VREF-DUPKEYS
+%attr(755,root,root) %{_datadir}/gitolite/contrib/VREF/gl-VREF-EMAIL_CHECK
+%attr(755,root,root) %{_datadir}/gitolite/contrib/VREF/gl-VREF-FILETYPE
+%{_datadir}/gitolite/contrib/VREF/gl-VREF-MERGE_CHECK
+%{_datadir}/gitolite/contrib/adc/adc.common-functions
+%{_datadir}/gitolite/contrib/adc/getdesc
+%{_datadir}/gitolite/contrib/adc/htpasswd
+%{_datadir}/gitolite/contrib/adc/pygitolite.py
+%{_datadir}/gitolite/contrib/adc/s3backup
+%{_datadir}/gitolite/contrib/adc/setdesc
+%{_datadir}/gitolite/contrib/adc/su-setperms
+%{_datadir}/gitolite/contrib/adc/svnserve
+%{_datadir}/gitolite/contrib/gitweb
+%{_datadir}/gitolite/contrib/ldap
 
 %files doc
 %defattr(644,root,root,755)
