@@ -47,3 +47,34 @@ index 1970d93..0395631 100755
 -- 
 1.7.11.rc2
 
+From 3a3761530bf059923ca3e04725dc70dea24c2d0a Mon Sep 17 00:00:00 2001
+From: Kacper Kornet <draenog@pld-linux.org>
+Date: Thu, 14 Jun 2012 13:20:04 +0100
+Subject: [PATCH] Commit all content of conf directory during initial setup
+
+So far only conf/gitolite.conf was committed to gitolie-admin repository
+during an initial setup. When initial gitolite.conf contained include
+directives it resulted in incomplete setup. However
+conf/gitolite.conf-compiled.pm should not be tracked so it has to be
+excluded explicitly.
+---
+ src/gl-setup | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/gl-setup b/src/gl-setup
+index 0395631..d4ffeaf 100755
+--- a/src/gl-setup
++++ b/src/gl-setup
+@@ -179,7 +179,8 @@ gl-compile-conf -q
+ [ -n "$pubkey_file" ] || [ -n "$GITOLITE_HTTP_HOME" ] && { RERUN_GL_INSTALL=1; (
+     cd $HOME; cd $REPO_BASE/gitolite-admin.git
+     GIT_WORK_TREE=$GL_ADMINDIR; export GIT_WORK_TREE
+-    git add conf/gitolite.conf keydir
++    git add conf keydir
++    git rm --cached conf/gitolite.conf-compiled.pm
+     git config --get user.email >/dev/null || git config user.email $USER@`hostname`
+     git config --get user.name  >/dev/null || git config user.name  "$USER on `hostname`"
+     git diff --cached --quiet 2>/dev/null || git commit -am "gl-setup $args"
+-- 
+1.7.11.rc3
+
