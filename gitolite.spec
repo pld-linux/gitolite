@@ -1,5 +1,5 @@
 # TODO:
-# - how is it excpected to cooperate with git-daemon?
+# - how is it expected to cooperate with git-daemon?
 # - add dedicated system user
 %include	/usr/lib/rpm/macros.perl
 Summary:	Software for hosting git repositories
@@ -40,11 +40,37 @@ or tag, which is very important in a corporate environment. Gitolite
 can be installed without requiring root permissions, and with no
 additional software than git itself and Perl.
 
+%description -l pl.UTF-8
+Gitolite pozwala na hostowanie wielu repozytoriów git na jednym
+serwerze i udostępnianie ich wielu deweloperom bez potrzeby nadawania
+tworzenia dla nich rzeczywistych użytkowników na serwerze. Cała magia
+polega na dostępie przy użyciu kluczy SSH oraz pliku authorized_keys,
+a inspiracją był starszy program o nazwie gitosis.
+
+Gitolite pozwala na ograniczenie, kto może odczytywać (operacje
+clone/fetch) i zapisywać (operacja push) do repozytorium. Pozwala
+także kontrolować, kto może zapisywać na daną gałąź lub etykietę, co
+może być bardzo ważne w środowisku korporacyjnym. Gitolite może być
+zainstalowany bez dostępu do konta roota i bez dodatkowego
+oprogramowania poza samym gitem i Perlem.
+
+%package contrib
+Summary:	Miscellaneous scripts for gitolite
+Summary(pl.UTF-8):	Różne skrypty dla gitolite
+Group:		Development/Tools
+Requires:	%{name} = %{version}-%{release}
+
+%description contrib
+Miscellaneous scripts for gitolite.
+
+%description contrib -l pl.UTF-8
+Różne skrypty dla gitolite.
+
 %package doc
 Summary:	Manual for Gitolite
 Summary(fr.UTF-8):	Documentation pour Gitolite
 Summary(it.UTF-8):	Documentazione di Gitolite
-Summary(pl.UTF-8):	Podręcznik dla Gitolite
+Summary(pl.UTF-8):	Dokumentacja do Gitolite
 Group:		Documentation
 
 %description doc
@@ -59,18 +85,10 @@ Documentazione di Gitolite.
 %description doc -l pl.UTF-8
 Dokumentacja do Gitolite.
 
-%package contrib
-Summary:	Miscellaneous scripts for gitolite
-Group:		Development/Tools
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-
-%description contrib
-Miscellaneous scripts for gitolite
-
 %prep
 %setup -qc
 mv sitaramc-gitolite-*/* .
-rm -rf sitaramc-gitolite-*
+%{__rm} -r sitaramc-gitolite-*
 
 %patch0 -p1
 %patch1 -p1
@@ -79,7 +97,7 @@ rm -rf sitaramc-gitolite-*
 %patch4 -p1
 %patch5 -p1
 
-rm src/gl-system-install
+%{__rm} src/gl-system-install
 
 echo v%{version} > conf/VERSION
 sed -i 's,^$GL_PACKAGE_CONF =.*,$GL_PACKAGE_CONF = "%{_sysconfdir}/gitolite";,g' conf/example.gitolite.rc
@@ -93,7 +111,7 @@ sed -i 's,^GL_PACKAGE_CONF=.*,GL_PACKAGE_CONF=%{_sysconfdir}/gitolite,g' src/gl-
 find contrib -name \*.mkd -exec cp '{}' doc \;
 # Format documentation
 for F in doc/*.mkd; do
-	perl -MText::Markdown > $(echo $F | sed s/.mkd/.html/) < $F \
+	%{__perl} -MText::Markdown > $(echo $F | sed s/.mkd/.html/) < $F \
 		-e '$text=join("",<>); $text=~s#(\[\w+\]: )http://sitaramc.github.com/gitolite/doc/#$1#g;
                     print Text::Markdown::markdown ($text);'
 done
@@ -115,7 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.mkd conf/example.conf hooks/common/{gl-pre-git.hub-sample,post-receive.mirrorpush}
+%doc README.mkd doc/CHANGELOG conf/example.conf hooks/common/{gl-pre-git.hub-sample,post-receive.mirrorpush}
 
 %dir %{_sysconfdir}/gitolite
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/gitolite/example.gitolite.rc
@@ -133,7 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files contrib
 %defattr(644,root,root,755)
-%dir %{_datadir}/gitolite/contrib/
+%dir %{_datadir}/gitolite/contrib
 %dir %{_datadir}/gitolite/contrib/adc
 %dir %{_datadir}/gitolite/contrib/partial-copy
 %dir %{_datadir}/gitolite/contrib/real-users
@@ -188,4 +206,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files doc
 %defattr(644,root,root,755)
-%doc doc/*
+%doc doc/*.html
