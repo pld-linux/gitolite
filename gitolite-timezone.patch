@@ -1,0 +1,22 @@
+commit a7ba5f22c272d061f2679ac621f67bfebccff416
+Author: Kacper Kornet <draenog@pld-linux.org>
+Date:   Mon Jan 14 12:29:33 2013 +0000
+
+    Use GMT not localtime for logging purposes
+    
+    localtime is influenced by TZ variable. Therefore the logs could
+    appear to be no monotonic if sshd accepted sending the TZ variable.
+
+diff --git a/src/gitolite_env.pm b/src/gitolite_env.pm
+index 5dffd41..0bcf660 100644
+--- a/src/gitolite_env.pm
++++ b/src/gitolite_env.pm
+@@ -141,7 +141,7 @@ sub get_logfilename {
+     # this sub has a wee little side-effect; it sets $ENV{GL_TS}
+     my($template) = shift;
+ 
+-    my ($s, $min, $h, $d, $m, $y) = (localtime)[0..5];
++    my ($s, $min, $h, $d, $m, $y) = (gmtime)[0..5];
+     $y += 1900; $m++;               # usual adjustments
+     for ($s, $min, $h, $d, $m) {
+         $_ = "0$_" if $_ < 10;
