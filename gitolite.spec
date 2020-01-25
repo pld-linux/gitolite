@@ -1,7 +1,6 @@
 # TODO:
 # - how is it expected to cooperate with git-daemon?
 # - add dedicated system user
-%include	/usr/lib/rpm/macros.perl
 Summary:	Software for hosting git repositories
 Summary(pl.UTF-8):	Narzędzie do hostowania repozytoriów git
 Name:		gitolite
